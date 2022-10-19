@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import Card from './src/components/card/card.component'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
 export default function App() {
-  const [userName, setUserName] = useState('pdiegoneves')
+  const [userName, setUserName] = useState('')
 
   const [name, setName] = useState('')
   const [avatar_url, setAvatar_url] = useState('')
@@ -35,7 +35,7 @@ export default function App() {
     })
   }, [userName])
   useEffect(() => {
-    axios.get(respos_url)
+      axios.get(respos_url)
       .then(res => {
         setRepositories([
           { id: res.data[0].id, name: res.data[0].name },
@@ -50,11 +50,20 @@ export default function App() {
           { id: res.data[9].id, name: res.data[9].name }
         ])
       })
+
   }, [userName])
+
+  const handleUserName = (e) => {
+    setUserName(e)
+  }
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
+      <TextInput
+        style={styles.input}
+        onChangeText={handleUserName}
+      />
       <Card
         name={name}
         avatar_url={avatar_url}
@@ -78,4 +87,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input: {
+    marginTop: 30,
+    height: 40,
+    width: '70%',
+    borderColor: 'gray',
+    backgroundColor: '#fff'
+  }
 })
