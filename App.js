@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View } from 'react-native'
 import Card from './src/components/card/card.component'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function App() {
   const [userName, setUserName] = useState('pdiegoneves')
@@ -19,8 +19,38 @@ export default function App() {
   const [respos_url, setRepos_url] = useState('')
   const [repositories, setRepositories] = useState([])
 
-
-  getRemoteUser(userName)
+  // getRemoteUser(userName)
+  useEffect(() => {
+    axios.get(`https://api.github.com/users/${userName}`).then((res) => {
+      setName(res.data.name)
+      setAvatar_url(res.data.avatar_url)
+      setHtml_url(res.data.html_url)
+      setBio(res.data.bio)
+      setBlog(res.data.blog)
+      setEmail(res.data.email)
+      setFollowers(res.data.followers)
+      setFollowing(res.data.following)
+      setLocation(res.data.location)
+      setRepos_url(`${res.data.repos_url}?perpage=10`)
+    })
+  }, [userName])
+  useEffect(() => {
+    axios.get(respos_url)
+      .then(res => {
+        setRepositories([
+          { id: res.data[0].id, name: res.data[0].name },
+          { id: res.data[1].id, name: res.data[1].name },
+          { id: res.data[2].id, name: res.data[2].name },
+          { id: res.data[3].id, name: res.data[3].name },
+          { id: res.data[4].id, name: res.data[4].name },
+          { id: res.data[5].id, name: res.data[5].name },
+          { id: res.data[6].id, name: res.data[6].name },
+          { id: res.data[7].id, name: res.data[7].name },
+          { id: res.data[8].id, name: res.data[8].name },
+          { id: res.data[9].id, name: res.data[9].name }
+        ])
+      })
+  }, [userName])
 
   return (
     <View style={styles.container}>
@@ -39,31 +69,6 @@ export default function App() {
       />
     </View>
   )
-
-  function getRemoteUser(userName) {
-    axios.get(`https://api.github.com/users/${userName}`).then((res) => {
-      setName(res.data.name)
-      setAvatar_url(res.data.avatar_url)
-      setHtml_url(res.data.html_url)
-      setBio(res.data.bio)
-      setBlog(res.data.blog)
-      setEmail(res.data.email)
-      setFollowers(res.data.followers)
-      setFollowing(res.data.following)
-      setLocation(res.data.location)
-      setRepos_url(`${res.data.repos_url}?perpage=10`)
-    })
-    
-    axios.get(respos_url)
-      .then(res => {
-        setRepositories([
-          { id: res.data[0].id, name: res.data[0].name },
-          { id: res.data[1].id, name: res.data[1].name },
-          { id: res.data[2].id, name: res.data[3].name }
-        ])
-      })
-    
-  }
 }
 
 const styles = StyleSheet.create({

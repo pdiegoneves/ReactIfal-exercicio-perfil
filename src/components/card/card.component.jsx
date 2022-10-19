@@ -27,10 +27,11 @@ export default function Card(props) {
           </View>
         </View>
       </ScrollView>
-      <FlatList styles={ styles.repoList }
+      <FlatList style={ styles.repoList }
           data={ props.repositories }
-          renderItem={ ({item}) => <Repository data={item} />}
-        />
+          renderItem={({ item }) => <Repository
+          data={item} />}
+          />
     </View>
   )
 }
@@ -74,19 +75,18 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   repoList: {
-    margin: 20,
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'left'
+    backgroundColor: '#333333',
+    paddingLeft: 40,
+  },
+  repo: {
+    color: '#fff',
   }
 })
 
 function Repository(props) {
   return (
     <View>
-      <Text>{props.data.name}</Text>
+      <Text style={styles.repo}>-> {props.data.name}</Text>
     </View>
   )
 }
