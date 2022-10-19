@@ -62,7 +62,7 @@ export default function App() {
       <StatusBar style="auto" />
       <TextInput
         style={styles.input}
-        onChangeText={handleUserName}
+        onEndEditing={handleUserName}
       />
       <Card
         name={name}
