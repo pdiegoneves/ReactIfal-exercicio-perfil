@@ -5,8 +5,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 
 export default function App() {
-  const [userName, setUserName] = useState('')
-
+  const [userName, setUserName] = useState('pdiegoneves')
   const [name, setName] = useState('')
   const [avatar_url, setAvatar_url] = useState('')
   const [html_url, setHtml_url] = useState('')
@@ -21,40 +20,28 @@ export default function App() {
 
   // getRemoteUser(userName)
   useEffect(() => {
-    axios.get(`https://api.github.com/users/${userName}`).then((res) => {
-      setName(res.data.name)
-      setAvatar_url(res.data.avatar_url)
-      setHtml_url(res.data.html_url)
-      setBio(res.data.bio)
-      setBlog(res.data.blog)
-      setEmail(res.data.email)
-      setFollowers(res.data.followers)
-      setFollowing(res.data.following)
-      setLocation(res.data.location)
-      setRepos_url(`${res.data.repos_url}?perpage=10`)
-    })
-  }, [userName])
-  useEffect(() => {
-      axios.get(respos_url)
-      .then(res => {
-        setRepositories([
-          { id: res.data[0].id, name: res.data[0].name },
-          { id: res.data[1].id, name: res.data[1].name },
-          { id: res.data[2].id, name: res.data[2].name },
-          { id: res.data[3].id, name: res.data[3].name },
-          { id: res.data[4].id, name: res.data[4].name },
-          { id: res.data[5].id, name: res.data[5].name },
-          { id: res.data[6].id, name: res.data[6].name },
-          { id: res.data[7].id, name: res.data[7].name },
-          { id: res.data[8].id, name: res.data[8].name },
-          { id: res.data[9].id, name: res.data[9].name }
-        ])
+    axios
+      .get(`https://api.github.com/users/${userName}`)
+      .then((res) => {
+        setName(res.data.name)
+        setAvatar_url(res.data.avatar_url)
+        setHtml_url(res.data.html_url)
+        setBio(res.data.bio)
+        setBlog(res.data.blog)
+        setEmail(res.data.email)
+        setFollowers(res.data.followers)
+        setFollowing(res.data.following)
+        setLocation(res.data.location)
+        setRepos_url(res.data.repos_url)
       })
-
   }, [userName])
+
+  useEffect(() => {
+    axios.get(respos_url).then(res => setRepositories(res.data))
+  }, [respos_url])
 
   const handleUserName = (e) => {
-    setUserName(e)
+    setUserName(e.nativeEvent.text)
   }
 
   return (
@@ -62,9 +49,8 @@ export default function App() {
       <StatusBar style="auto" />
       <TextInput
         style={styles.input}
-        // onChangeText={handleUserName}
+        placeholder={userName}
         onEndEditing={handleUserName}
-
       />
       <Card
         name={name}
@@ -94,6 +80,6 @@ const styles = StyleSheet.create({
     height: 40,
     width: '70%',
     borderColor: 'gray',
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 })

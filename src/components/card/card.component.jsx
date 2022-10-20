@@ -39,6 +39,7 @@ export default function Card(props) {
 const styles = StyleSheet.create({
   card: {
     minWidth: '90%',
+    minHeight: 400,
     backgroundColor: '#ddd',
     flex: 1,
     alignContent: 'center',
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
   repoList: {
     backgroundColor: '#333333',
     paddingLeft: 40,
+    maxHeight: 200
   },
   repo: {
     color: '#fff',
