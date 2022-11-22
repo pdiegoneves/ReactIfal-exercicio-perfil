@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "pdiegoneves.gitlist"
     },
     "web": {
       "favicon": "./assets/favicon.png"
